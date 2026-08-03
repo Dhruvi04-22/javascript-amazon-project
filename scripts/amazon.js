@@ -1,5 +1,6 @@
 //data structure for products - called data structure because it is a collection of data
 import { cart } from "../data/cart.js";
+import {products} from '../data/products.js';
 let productsHTML = "";
 
 products.forEach((product) => {
