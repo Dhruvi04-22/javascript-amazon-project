@@ -147,12 +147,8 @@ export function renderOrderSummary() {
     );
     container.classList.remove("is-editing-quantity");
 
-    const quantityLabel = document.querySelector(
-      `.js-quantity-label-${productId}`,
-    );
-    quantityLabel.innerHTML = newQuantity;
-
     renderCheckoutHeader();
+    renderOrderSummary();
     renderPaymentSummary();
   }
 
