@@ -56,7 +56,7 @@ export function renderOrderSummary() {
             <span class="update-quantity-link link-primary js-update-link" data-product-id="${matchingProduct.id}">
               Update
             </span>
-            <input class="quantity-input js-quantity-input-${matchingProduct.id}" data-product-id="${matchingProduct.id}">
+            <input class="quantity-input js-quantity-input-${matchingProduct.id} js-quantity-input" data-product-id="${matchingProduct.id}">
             <span class="save-quantity-link link-primary js-save-link" data-product-id="${matchingProduct.id}">Save</span>
             <span class="delete-quantity-link link-primary js-delete-link 
             js-delete-link-${matchingProduct.id}" 
@@ -165,16 +165,14 @@ export function renderOrderSummary() {
     });
   });
 
-  // document.body.addEventListener("keydown", (event) => {});
-
-  // document.querySelectorAll(".js-save-link").forEach((link) => {
-  //   document.body.addEventListener("keydown", (event) => {
-  //     const productId = link.dataset.productId;
-  //     if (event.key === "Enter") {
-  //       saveQuantity(productId);
-  //     }
-  //   });
-  // });
+  document.querySelectorAll(".js-quantity-input").forEach((input) => {
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        const productId = input.dataset.productId;
+        saveQuantity(productId);
+      }
+    });
+  });
 
   document.querySelectorAll(".js-delivery-option").forEach((element) => {
     element.addEventListener("click", () => {
