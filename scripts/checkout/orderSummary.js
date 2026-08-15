@@ -20,18 +20,26 @@ import { renderCheckoutHeader } from "./checkoutHeader.js";
 export function renderOrderSummary() {
   let cartSummaryHTML = "";
 
-  cart.forEach((cartItem) => {
-    const productId = cartItem.productId;
-
-    const matchingProduct = getProduct(productId);
-
-    const deliveryOptionId = cartItem.deliveryOptionId;
-
-    const deliveryOption = getDeliveryOption(deliveryOptionId);
-
-    const dateString = calculateDeliveryDate(deliveryOption);
-
+  if (cart.length === 0) {
     cartSummaryHTML += `
+    <div class="view-products">
+      <p>Your cart is empty.</p>
+      <a href="amazon.html" class="primary-button view-product-link">View products</a>
+    </div>
+    `;
+  } else {
+    cart.forEach((cartItem) => {
+      const productId = cartItem.productId;
+
+      const matchingProduct = getProduct(productId);
+
+      const deliveryOptionId = cartItem.deliveryOptionId;
+
+      const deliveryOption = getDeliveryOption(deliveryOptionId);
+
+      const dateString = calculateDeliveryDate(deliveryOption);
+
+      cartSummaryHTML += `
     <div class="cart-item-container 
       js-cart-item-container
       js-cart-item-container-${matchingProduct.id}">
@@ -75,7 +83,8 @@ export function renderOrderSummary() {
       </div>
     </div>
   `;
-  });
+    });
+  }
 
   function deliveryOptionsHTML(matchingProduct, cartItem) {
     let html = "";
@@ -159,9 +168,6 @@ export function renderOrderSummary() {
     link.addEventListener("click", () => {
       const productId = link.dataset.productId;
       saveQuantity(productId);
-      // productId = saveQuantityInput.dataset.productId;
-      // const quantityInput = Number(saveQuantityInput.value);
-      // document.querySelector(".js-quantity-label").innerHTML = quantityInput;
     });
   });
 
