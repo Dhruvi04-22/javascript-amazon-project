@@ -2,32 +2,15 @@
 import { cart, addToCart, calculateCartQuantity } from "../data/cart.js";
 import { products, loadProducts } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
+import { loadHeader, filterSearchProducts } from "./header.js";
 
 loadProducts(renderProductsGrid);
 
 function renderProductsGrid() {
   let productsHTML = "";
 
-  const url = new URL(window.location.href);
-  const search = url.searchParams.get("search");
-
-  let filterProducts = products;
-
-  if (search) {
-    filterProducts = products.filter((product) => {
-      let matchingkeyword = false;
-
-      product.keywords.forEach((keyword) => {
-        if (keyword.toLowerCase().includes(search.toLowerCase())) {
-          matchingkeyword = true;
-        }
-      });
-      return (
-        matchingkeyword ||
-        product.name.toLowerCase().includes(search.toLowerCase())
-      );
-    });
-  }
+  loadHeader();
+  let filterProducts = filterSearchProducts();
 
   filterProducts.forEach((product) => {
     productsHTML += `      
@@ -84,9 +67,6 @@ function renderProductsGrid() {
 
   document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
-  const cartQuantity = calculateCartQuantity();
-  document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
-
   document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     button.addEventListener("click", () => {
       const productId = button.dataset.productId;
@@ -119,18 +99,4 @@ function renderProductsGrid() {
       document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
     });
   });
-
-  document.querySelector(".js-search-button").addEventListener("click", () => {
-    const search = document.querySelector(".js-search-bar").value;
-    window.location.href = `amazon.html?search=${search}`;
-  });
-
-  document
-    .querySelector(".js-search-bar")
-    .addEventListener("keydown", (event) => {
-      if (event.key === "Enter") {
-        const searchTerm = document.querySelector(".js-search-bar").value;
-        window.location.href = `amazon.html?search=${searchTerm}`;
-      }
-    });
 }

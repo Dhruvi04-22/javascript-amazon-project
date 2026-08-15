@@ -1,6 +1,9 @@
 import { loadProductsFetch, getProduct } from "../data/products.js";
 import { getOrder } from "../data/orders.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
+import { loadHeader } from "./header.js";
+
+loadHeader();
 
 async function loadPage() {
   await loadProductsFetch();
